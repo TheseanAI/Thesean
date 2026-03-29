@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import Footer, Static
+from textual.worker import Worker
 
 from psystack.pipeline.live_update import LivePairFrame
 from psystack.pipeline.paired_runner import EvalCancelled as _EvalCancelled
@@ -147,6 +148,7 @@ class PsyStackApp(App):
         self._live_sidecar: object | None = None
         # Cancel flag for running evaluation
         self._eval_cancel: threading.Event = threading.Event()
+        self._eval_worker: Worker | None = None
         # Set during shutdown to prevent call_from_thread crashes
         self._shutting_down: bool = False
 
@@ -167,10 +169,18 @@ class PsyStackApp(App):
         self._shutting_down = True
         self._eval_cancel.set()
         self._stop_live_monitoring()
-        if self.state.case_state == CaseState.RUNNING:
-            # Give the worker thread a moment to hit the cancel check and exit
-            # before Textual tears down the interpreter.
-            self.set_timer(0.3, lambda: self.exit())
+        worker = self._eval_worker
+        if worker is not None and worker.is_running:
+            import asyncio
+
+            async def _wait_and_exit() -> None:
+                try:
+                    await asyncio.wait_for(worker.wait(), timeout=3.0)
+                except (asyncio.TimeoutError, Exception):
+                    pass
+                self.exit()
+
+            self.run_worker(_wait_and_exit, thread=False)  # type: ignore[arg-type]
         else:
             self.exit()
 
@@ -560,7 +570,7 @@ class PsyStackApp(App):
             if self.state.live_view in ("tui", "both"):
                 self._live_poll_timer = self.set_interval(0.05, self._poll_live_queue)
 
-            self.run_worker(self._run_eval_worker, thread=True)
+            self._eval_worker = self.run_worker(self._run_eval_worker, thread=True)
         except Exception as exc:
             self._on_eval_error(str(exc))
 
@@ -642,6 +652,7 @@ class PsyStackApp(App):
 
     def _on_eval_complete(self) -> None:
         """Episodes saved. Transition to ANALYSIS_PENDING and run analysis in a worker."""
+        self._eval_worker = None
         self._stop_live_monitoring()
         self.state.runtime.mode = "eval_computing"
         self._notify_screen_pending()
@@ -726,6 +737,7 @@ class PsyStackApp(App):
             self._open_case_verdict()
 
     def _on_eval_error(self, error_msg: str) -> None:
+        self._eval_worker = None
         self._stop_live_monitoring()
         self.state.case_state = CaseState.RUN_FAILED
         self.state.runtime.mode = "error"
@@ -751,6 +763,7 @@ class PsyStackApp(App):
 
     def _on_eval_cancelled(self) -> None:
         """Handle a cleanly-cancelled evaluation."""
+        self._eval_worker = None
         self._stop_live_monitoring()
         self.state.case_state = CaseState.RUN_FAILED
         self.state.runtime.mode = "idle"
@@ -766,20 +779,25 @@ class PsyStackApp(App):
     # ── Live monitoring (4B) ──
 
     def _poll_live_queue(self) -> None:
-        """Newest-frame-wins: drain all available items, render only the last."""
+        """Drain queue, log every step, update dashboard with latest only."""
         q = self._live_queue
         if q is None:
             return
-        latest = None
+        frames: list[object] = []
         while True:
             try:
-                latest = q.get_nowait()
+                frames.append(q.get_nowait())
             except _queue_mod.Empty:
                 break
-        if latest is not None:
-            self._push_live_update(latest)
+        if not frames:
+            return
+        # Log step lines for all intermediate frames
+        for raw in frames[:-1]:
+            self._push_live_update(raw, step_only=True)
+        # Full dashboard update for the latest frame
+        self._push_live_update(frames[-1], step_only=False)
 
-    def _push_live_update(self, raw: object) -> None:
+    def _push_live_update(self, raw: object, *, step_only: bool = False) -> None:
         """Transform LivePairFrame via adapter, forward to active screen."""
 
         if not isinstance(raw, LivePairFrame):
@@ -798,7 +816,9 @@ class PsyStackApp(App):
             view = _fallback_pair_view(frame)
 
         screen = self.screen
-        if hasattr(screen, "push_live_update"):
+        if step_only and hasattr(screen, "push_live_step_only"):
+            screen.push_live_step_only(view)
+        elif hasattr(screen, "push_live_update"):
             screen.push_live_update(view)
 
     def _stop_live_monitoring(self) -> None:

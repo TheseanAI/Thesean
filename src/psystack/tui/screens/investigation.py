@@ -329,6 +329,11 @@ class InvestigationScreen(Screen):
         except Exception:
             pass
 
+    def push_live_step_only(self, view: object) -> None:
+        """Forward step-only log line to the LiveRunMonitor widget."""
+        if self._screen_mode == ScreenMode.RUNNING_LIVE:
+            self.query_one(LiveRunMonitor).push_step_only(view)  # type: ignore[arg-type]
+
     def push_live_update(self, view: object) -> None:
         """Forward live telemetry to the LiveRunMonitor widget."""
         if self._screen_mode == ScreenMode.RUNNING_LIVE:

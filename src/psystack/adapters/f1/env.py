@@ -26,7 +26,14 @@ class F1EnvAdapter:
         from configs.default import Config
         from env.f1_env import F1Env
 
-        cfg = Config(**{k: v for k, v in config.items() if hasattr(Config, k)})
+        accepted = {k: v for k, v in config.items() if hasattr(Config, k)}
+        dropped = set(config.keys()) - set(accepted.keys())
+        if dropped:
+            import logging
+            logging.getLogger(__name__).warning(
+                "F1EnvAdapter: config keys dropped (not in F1 Config): %s", sorted(dropped)
+            )
+        cfg = Config(**accepted)
         self._env = F1Env.from_config(cfg)
 
     def reset(self, seed: int | None = None) -> dict[str, Any]:

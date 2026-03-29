@@ -251,20 +251,26 @@ LiveRunMonitor #lrm-compare {
         idx = len(self._completed) - 1
         history.mount(Static(line, classes="lrm-ep-done", id=f"lrm-done-{idx}"))
 
+    def push_step_only(self, view: LivePairTelemetryView) -> None:
+        """Append step log lines without updating dashboard panels.
+
+        Used for intermediate frames that were queued between poll cycles so
+        every step appears in the log, not just the latest per poll.
+        """
+        if self._frozen:
+            return
+        self._handle_episode_change(view)
+        line_a = self._format_step_line(view.action_a, view.tick)
+        line_b = self._format_step_line(view.action_b, view.tick)
+        self._append_step_line("lrm-log-a", line_a)
+        self._append_step_line("lrm-log-b", line_b)
+
     def push_update(self, view: LivePairTelemetryView) -> None:
         """Render pair telemetry view into A/B columns with step log."""
         if self._frozen:
             return
 
-        # Detect episode change — snapshot previous episode, clear logs for fresh start
-        if view.episode != self._current_episode:
-            self._snapshot_current()
-            self._current_episode = view.episode
-            # Clear step logs so each episode starts clean
-            for log_id in ("lrm-log-a", "lrm-log-b"):
-                scroll = self.query_one(f"#{log_id}", VerticalScroll)
-                for w in list(scroll.children):
-                    w.remove()
+        self._handle_episode_change(view)
 
         # Header
         header_text = Text()
@@ -311,6 +317,16 @@ LiveRunMonitor #lrm-compare {
         # Mount step lines outside batch_update — Textual can't mount+query in same batch
         self._append_step_line("lrm-log-a", line_a)
         self._append_step_line("lrm-log-b", line_b)
+
+    def _handle_episode_change(self, view: LivePairTelemetryView) -> None:
+        """Detect episode change — snapshot previous episode, clear logs for fresh start."""
+        if view.episode != self._current_episode:
+            self._snapshot_current()
+            self._current_episode = view.episode
+            for log_id in ("lrm-log-a", "lrm-log-b"):
+                scroll = self.query_one(f"#{log_id}", VerticalScroll)
+                for w in list(scroll.children):
+                    w.remove()
 
     def clear(self) -> None:
         """Reset to waiting state."""

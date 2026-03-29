@@ -304,6 +304,10 @@ class CaseVerdictScreen(Screen):
         self._screen_mode = "stale"
         self._refresh()
 
+    def push_live_step_only(self, view: Any) -> None:
+        if self._screen_mode == "running":
+            self.query_one(LiveRunMonitor).push_step_only(view)
+
     def push_live_update(self, view: Any) -> None:
         if self._screen_mode == "running":
             self._last_live_view = view

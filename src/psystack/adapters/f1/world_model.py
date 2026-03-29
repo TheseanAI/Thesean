@@ -32,8 +32,20 @@ class F1WorldModelAdapter:
             raise RuntimeError("load() must be called before encode()")
         raster = self._to_raster_tensor(obs)
         aux = self._to_aux_tensor(obs)
-        with torch.no_grad():
-            return self._model.encode(raster, aux)
+        if raster.shape[-2:] != (64, 64):
+            raise ValueError(
+                f"World model requires raster_size=64, got {raster.shape[-2:]!r}. "
+                f"Set raster_size=64 in env config."
+            )
+        try:
+            with torch.no_grad():
+                return self._model.encode(raster, aux)
+        except RuntimeError as e:
+            raise RuntimeError(
+                f"WorldModel.encode failed: {e}\n"
+                f"  raster shape: {raster.shape} (expected: (B, 3, 64, 64))\n"
+                f"  aux shape:    {aux.shape} (expected: (B, 16))"
+            ) from e
 
     def encode_target(self, obs: dict[str, Any]) -> Any:
         if self._model is None:
@@ -49,8 +61,15 @@ class F1WorldModelAdapter:
         action_t = torch.tensor(action, dtype=torch.float32, device=self._device)
         if action_t.dim() == 1:
             action_t = action_t.unsqueeze(0)
-        with torch.no_grad():
-            return self._model.predict(latent, action_t)
+        try:
+            with torch.no_grad():
+                return self._model.predict(latent, action_t)
+        except RuntimeError as e:
+            raise RuntimeError(
+                f"WorldModel.predict failed: {e}\n"
+                f"  latent shape: {latent.shape if hasattr(latent, 'shape') else type(latent)}\n"
+                f"  action shape: {action_t.shape} (expected: (B, 3))"
+            ) from e
 
     def predict_progress(self, latent: Any) -> float:
         if self._model is None:
