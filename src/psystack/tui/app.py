@@ -1187,6 +1187,9 @@ class PsyStackApp(App):
         if workspace not in ctx.cases:
             ctx.cases.insert(0, workspace)
 
+        # Load track geometry for braille track map
+        self._load_track_geometry()
+
         # Navigate to case verdict
         self.pop_screen()
         self._open_case_verdict()
