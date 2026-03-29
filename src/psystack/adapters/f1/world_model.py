@@ -20,11 +20,12 @@ class F1WorldModelAdapter:
         from models.world_model import WorldModel
 
         self._device = device
-        self._model = WorldModel()
+        model = WorldModel()
         state_dict = torch.load(weights_path, map_location=device, weights_only=True)
-        self._model.load_state_dict(state_dict)
-        self._model.to(device)
-        self._model.eval()
+        model.load_state_dict(state_dict)
+        model.to(device)
+        model.eval()
+        self._model = model
 
     def encode(self, obs: dict[str, Any]) -> Any:
         if self._model is None:
@@ -35,12 +36,16 @@ class F1WorldModelAdapter:
             return self._model.encode(raster, aux)
 
     def encode_target(self, obs: dict[str, Any]) -> Any:
+        if self._model is None:
+            raise RuntimeError("load() must be called before encode_target()")
         raster = self._to_raster_tensor(obs)
         aux = self._to_aux_tensor(obs)
         with torch.no_grad():
             return self._model.get_target(raster, aux)
 
     def predict(self, latent: Any, action: np.ndarray) -> Any:
+        if self._model is None:
+            raise RuntimeError("load() must be called before predict()")
         action_t = torch.tensor(action, dtype=torch.float32, device=self._device)
         if action_t.dim() == 1:
             action_t = action_t.unsqueeze(0)
@@ -48,12 +53,16 @@ class F1WorldModelAdapter:
             return self._model.predict(latent, action_t)
 
     def predict_progress(self, latent: Any) -> float:
+        if self._model is None:
+            raise RuntimeError("load() must be called before predict_progress()")
         with torch.no_grad():
-            return self._model.progress_head(latent).item()
+            return self._model.progress_head(latent).item()  # type: ignore[no-any-return]
 
     def predict_offtrack(self, latent: Any) -> float:
+        if self._model is None:
+            raise RuntimeError("load() must be called before predict_offtrack()")
         with torch.no_grad():
-            return torch.sigmoid(self._model.offtrack_head(latent)).item()
+            return torch.sigmoid(self._model.offtrack_head(latent)).item()  # type: ignore[no-any-return]
 
     def get_raw_model(self) -> Any:
         return self._model
@@ -64,7 +73,7 @@ class F1WorldModelAdapter:
             raster = torch.tensor(raster, dtype=torch.float32, device=self._device)
         if raster.dim() == 3:
             raster = raster.unsqueeze(0)
-        return raster
+        return raster  # type: ignore[no-any-return]
 
     def _to_aux_tensor(self, obs: dict[str, Any]) -> torch.Tensor:
         aux = obs["aux"]
@@ -72,4 +81,4 @@ class F1WorldModelAdapter:
             aux = torch.tensor(aux, dtype=torch.float32, device=self._device)
         if aux.dim() == 1:
             aux = aux.unsqueeze(0)
-        return aux
+        return aux  # type: ignore[no-any-return]

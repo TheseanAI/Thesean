@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 from psystack.models.event import Event
 from psystack.models.signal import SignalValue
@@ -175,6 +175,7 @@ def _emit_divergence_window(
     duration = end - start + 1
 
     # Severity based on duration and peak delta
+    severity: Literal["info", "warning", "critical"]
     if duration > 20 or peak_delta > 0.5:
         severity = "critical"
     elif duration > 8 or peak_delta > 0.3:
@@ -213,12 +214,12 @@ def _extract_risk_spikes(
         worst = max(ot_a, ot_b)
 
         if worst >= _RISK_THRESHOLD and (i - last_spike_step) > _RISK_COOLDOWN:
-            severity = "critical" if worst >= 8 else "warning"
+            sev: Literal["info", "warning", "critical"] = "critical" if worst >= 8 else "warning"
             events.append(Event(
                 id=f"{episode_id}_risk_spike_{spike_idx}_{i}",
                 type="risk_spike",
                 step=i,
-                severity=severity,
+                severity=sev,
                 score=worst / 10.0,
                 active_signals=[SignalValue(name="offtrack_risk", value=worst)],
             ))

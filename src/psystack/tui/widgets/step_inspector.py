@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from rich.text import Text
 from textual.app import ComposeResult
@@ -30,7 +30,7 @@ class StepInspector(Vertical):
     }
     """
 
-    def __init__(self, **kwargs: object) -> None:
+    def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self._schema: SignalSchema | None = None
 
@@ -78,9 +78,9 @@ class StepInspector(Vertical):
                 delta = vb - va
                 threshold = 0.1
                 if self._schema:
-                    sig_def = self._schema.get_def(key)
-                    if sig_def:
-                        threshold = sig_def.delta_threshold
+                    sig_def_found = self._schema.get_def(key)
+                    if sig_def_found:
+                        threshold = sig_def_found.delta_threshold
 
                 display_key = key[:10]
                 text.append(f"{display_key:10s} ", style="dim")

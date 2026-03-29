@@ -35,7 +35,7 @@ class Run(BaseModel):
             planner_config=manifest.planner_config,
             env_config=manifest.env_config,
             seed=manifest.seed,
-            num_episodes=manifest.num_episodes,
+            num_episodes=manifest.num_episodes,  # type: ignore[call-arg]
         )
 
     def to_manifest(self) -> RunManifest:

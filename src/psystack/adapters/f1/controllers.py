@@ -29,7 +29,7 @@ class ScriptedControllerAdapter:
 
     def _make_controller(self) -> Any:
         """Instantiate the controller, passing track if the constructor accepts it."""
-        sig = inspect.signature(self._controller_cls.__init__)
+        sig = inspect.signature(self._controller_cls)
         if "track" in sig.parameters and self._track is not None:
             return self._controller_cls(self._track)
         return self._controller_cls()
@@ -52,5 +52,5 @@ class ScriptedControllerAdapter:
     def act(self, obs: dict[str, Any], car_state: dict[str, Any] | None = None) -> np.ndarray:
         """Delegate to the underlying controller's __call__."""
         if self._accepts_car_state:
-            return self._controller(obs, car_state=car_state)
-        return self._controller(obs)
+            return self._controller(obs, car_state=car_state)  # type: ignore[no-any-return]
+        return self._controller(obs)  # type: ignore[no-any-return]

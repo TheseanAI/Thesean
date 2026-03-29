@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
 from textual.message import Message
@@ -35,7 +37,7 @@ class MetricDetailPane(Widget):
             self.metric_id = metric_id
             super().__init__()
 
-    def __init__(self, **kwargs: object) -> None:
+    def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self._current_metric_id: str | None = None
 

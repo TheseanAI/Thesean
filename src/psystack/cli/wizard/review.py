@@ -48,7 +48,7 @@ def display_review(answers: InitAnswers) -> None:
 
 def confirm_write() -> bool:
     """Ask user to confirm before writing files."""
-    return inquirer.confirm(
+    return inquirer.confirm(  # type: ignore[no-any-return]
         message="Write config and manifests?",
         default=True,
     ).execute()

@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import contextlib
+from collections.abc import Sequence
 from datetime import datetime, timezone
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from psystack.pipeline.context import RunContext
 from psystack.pipeline.stages.base import Stage
@@ -35,7 +36,7 @@ def utc_now() -> str:
 
 def run_stages(
     ctx: RunContext,
-    stages: tuple[Stage, ...],
+    stages: Sequence[Stage],
     *,
     observer: StageObserver | None = None,
 ) -> None:
@@ -43,6 +44,7 @@ def run_stages(
     all_names = [stage.name for stage in stages]
 
     # Only use Rich Progress when no observer (CLI mode)
+    progress_ctx: Any
     if observer is None:
         from rich.progress import Progress
         progress_ctx = Progress()

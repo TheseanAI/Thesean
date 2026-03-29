@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
@@ -54,7 +55,7 @@ class CaseHistoryModal(ModalScreen[Path | None]):
     }
     """
 
-    def __init__(self, cases: list[Path], **kwargs: object) -> None:
+    def __init__(self, cases: list[Path], **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self._cases = cases
 

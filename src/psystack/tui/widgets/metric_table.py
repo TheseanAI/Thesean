@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from textual.message import Message
 from textual.widgets import DataTable
 
@@ -21,7 +23,7 @@ class MetricTable(DataTable):
             self.metric_id = metric_id
             super().__init__()
 
-    def __init__(self, **kwargs: object) -> None:
+    def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self._all_metrics: list[MetricComparison] = []
         self._displayed_metrics: list[MetricComparison] = []

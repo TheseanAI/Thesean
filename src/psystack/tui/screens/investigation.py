@@ -193,7 +193,7 @@ class InvestigationScreen(Screen):
         """Toggle the help command overlay."""
         self.query_one(HelpOverlay).toggle()
 
-    def check_action(self, action: str, parameters: tuple[object, ...]) -> bool | None:
+    def check_action(self, action: str, parameters: tuple[object, ...]) -> bool | None:  # type: ignore[override]
         """Gate actions based on screen mode."""
         if action in _READY_ONLY_ACTIONS:
             return True if self._screen_mode == ScreenMode.READY_INVESTIGATION else None
@@ -203,7 +203,7 @@ class InvestigationScreen(Screen):
             ws = getattr(getattr(self.app, "state", None), "current_workspace", None)
             if not ws:
                 return False
-            return (ws / "analysis" / "result.json").exists()
+            return bool((ws / "analysis" / "result.json").exists())
         return True
 
     def on_mount(self) -> None:
@@ -332,7 +332,7 @@ class InvestigationScreen(Screen):
     def push_live_update(self, view: object) -> None:
         """Forward live telemetry to the LiveRunMonitor widget."""
         if self._screen_mode == ScreenMode.RUNNING_LIVE:
-            self.query_one(LiveRunMonitor).push_update(view)
+            self.query_one(LiveRunMonitor).push_update(view)  # type: ignore[arg-type]
 
     def update_progress(self, side: str, episode: int, total: int) -> None:
         """Update case bar with eval progress (called from app.py)."""
@@ -445,7 +445,7 @@ class InvestigationScreen(Screen):
             return
 
         self.notify("Starting evaluation...")
-        app.run_evaluation()
+        app.run_evaluation()  # type: ignore[attr-defined]
 
     def action_next_event(self) -> None:
         if not self._sorted_events:

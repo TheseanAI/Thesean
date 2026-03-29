@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from textual.app import ComposeResult
 from textual.containers import Horizontal
 from textual.widgets import Button
@@ -31,12 +33,12 @@ class ActionBar(Horizontal):
     }
     """
 
-    def __init__(self, buttons: list[ButtonDef], **kwargs: object) -> None:
+    def __init__(self, buttons: list[ButtonDef], **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self._buttons = buttons
 
     def compose(self) -> ComposeResult:
         for label, btn_id, variant in self._buttons:
-            btn = Button(label, id=btn_id, variant=variant)
+            btn = Button(label, id=btn_id, variant=variant)  # type: ignore[arg-type]
             btn.can_focus = False
             yield btn

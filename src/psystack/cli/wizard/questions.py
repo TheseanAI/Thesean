@@ -16,7 +16,7 @@ def prompt_adapter(available: list[str]) -> str:
     """Select adapter from registered adapters."""
     if len(available) == 1:
         return available[0]
-    return inquirer.select(
+    return inquirer.select(  # type: ignore[no-any-return]
         message="Adapter type:",
         choices=available,
         default=available[0],
@@ -42,7 +42,7 @@ def prompt_weights(weights: list[dict[str, Any]], role: str, default_idx: int) -
         {"name": f"{w['name']}  ({w['size_mb']} MB, {w['mtime']})", "value": i}
         for i, w in enumerate(weights)
     ]
-    return inquirer.select(
+    return inquirer.select(  # type: ignore[no-any-return]
         message=f"{role} weight:",
         choices=choices,
         default=default_idx,
@@ -57,7 +57,7 @@ def prompt_change_type() -> ChangeType:
         {"name": "Both weights and planner config", "value": ChangeType.BOTH},
         {"name": "Other / not sure", "value": ChangeType.OTHER},
     ]
-    return inquirer.select(
+    return inquirer.select(  # type: ignore[no-any-return]
         message="What changed between baseline and candidate?",
         choices=choices,
         default=ChangeType.WEIGHTS_ONLY,
@@ -85,7 +85,7 @@ def prompt_env(envs: list[str]) -> str:
         if e.lower() == "monza":
             default = e
             break
-    return inquirer.select(
+    return inquirer.select(  # type: ignore[no-any-return]
         message="Environment:",
         choices=envs,
         default=default,

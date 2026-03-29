@@ -49,5 +49,5 @@ class EventStage:
         """Load episode data from the compare stage output."""
         episodes_path = ctx.workspace / condition / "episodes.json"
         if episodes_path.exists():
-            return json.loads(episodes_path.read_text())
+            return json.loads(episodes_path.read_text())  # type: ignore[no-any-return]
         return []

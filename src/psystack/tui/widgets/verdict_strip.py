@@ -42,7 +42,7 @@ class VerdictStrip(Static):
         self.set_classes("vs-running")
         # Track per-side progress for interleaved parallel updates
         if not hasattr(self, "_side_progress"):
-            self._side_progress: dict[str, tuple[int, int]] = {}
+            self._side_progress = {}  # type: ignore[no-redef]
         self._side_progress[side] = (episode, total)
 
         # Build combined display

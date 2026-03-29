@@ -104,7 +104,7 @@ def run_paired_episodes(
                     step=tick, progress=float(progress_a), reward=float(reward_a),
                     done=done_a,
                     termination=info_a.get("termination") if done_a else None,
-                    state=car_state_a, action=action_list_a, info=_serialize_info(info_a),
+                    state=car_state_a, action=action_list_a, info=_serialize_info(info_a),  # type: ignore[arg-type]
                 )
 
             if cancel_event is not None and cancel_event.is_set():
@@ -138,7 +138,7 @@ def run_paired_episodes(
                     step=tick, progress=float(progress_b), reward=float(reward_b),
                     done=done_b,
                     termination=info_b.get("termination") if done_b else None,
-                    state=car_state_b, action=action_list_b, info=_serialize_info(info_b),
+                    state=car_state_b, action=action_list_b, info=_serialize_info(info_b),  # type: ignore[arg-type]
                 )
 
             # Emit pair frame

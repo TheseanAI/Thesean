@@ -77,7 +77,7 @@ class EventNavigator(VerticalScroll):
         super().__init__(**kwargs)
         self._events: list[Event] = []
         # Direct widget references — index maps to Static widget, avoids ID collisions
-        self._item_widgets: list[Static] = []
+        self._item_widgets: list[tuple[int, Static]] = []
 
     def compose(self) -> ComposeResult:
         self.border_title = "Divergences"

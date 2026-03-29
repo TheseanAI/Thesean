@@ -380,7 +380,7 @@ class CaseVerdictScreen(Screen):
             "cv-ctx-attribution": self.action_open_attribution,
             "cv-ctx-isolate": self.action_run_isolation,
         }
-        handler = _dispatch.get(event.button.id)
+        handler = _dispatch.get(event.button.id or "")
         if handler:
             handler()
 
@@ -621,7 +621,7 @@ class CaseVerdictScreen(Screen):
             return
 
         self.notify("Starting evaluation...")
-        app.run_evaluation()
+        app.run_evaluation()  # type: ignore[attr-defined]
 
     def action_analysis_rerun(self) -> None:
         app = self.app
@@ -656,4 +656,4 @@ class CaseVerdictScreen(Screen):
         if not ws:
             return False
         result_path = ws / "analysis" / "result.json"
-        return result_path.exists()
+        return bool(result_path.exists())

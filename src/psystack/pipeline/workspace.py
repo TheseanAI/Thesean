@@ -71,7 +71,7 @@ def read_workspace_state(workspace: Path) -> dict[str, Any]:
     """Read workspace_state.json. Returns default state if missing."""
     state_path = workspace / "workspace_state.json"
     if state_path.exists():
-        return json.loads(state_path.read_text())
+        return json.loads(state_path.read_text())  # type: ignore[no-any-return]
     return {"case_state": "draft", "attempts": []}
 
 
@@ -149,7 +149,7 @@ def load_result(workspace: Path) -> dict[str, Any] | None:
     result_path = workspace / "analysis" / "result.json"
     if not result_path.exists():
         return None
-    return json.loads(result_path.read_text())
+    return json.loads(result_path.read_text())  # type: ignore[no-any-return]
 
 
 class _NumpyEncoder(json.JSONEncoder):

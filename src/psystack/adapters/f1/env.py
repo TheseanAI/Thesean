@@ -42,7 +42,7 @@ class F1EnvAdapter:
         return self._env.step(action)
 
     def get_car_state(self) -> dict[str, Any]:
-        return self._env.get_car_state()
+        return self._env.get_car_state()  # type: ignore[attr-defined, no-any-return]
 
     def get_progress(self) -> float:
-        return self._env.get_progress()
+        return self._env.get_progress()  # type: ignore[attr-defined, no-any-return]

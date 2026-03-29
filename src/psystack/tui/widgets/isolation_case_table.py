@@ -33,7 +33,7 @@ class IsolationCaseTable(DataTable):
         result_map = {r.test_id: r for r in bundle.swap_results}
         for case in bundle.cases:
             result = result_map.get(case.test_id)
-            summary = result.status if result else "—"
+            summary: str = result.status if result else "—"
             if result and result.error:
                 summary = f"failed: {result.error[:30]}"
             self.add_row(

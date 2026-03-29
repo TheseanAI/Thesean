@@ -107,7 +107,7 @@ class TuiBackendService:
         factory = load_factory(adapter_name)
         factory.bind_repo(repo)
         if hasattr(factory, "discover_controllers"):
-            return factory.discover_controllers()
+            return factory.discover_controllers()  # type: ignore[no-any-return]
         return []
 
     # ── Workspace ──
@@ -334,14 +334,14 @@ class TuiBackendService:
     def run_full_pipeline(self, workspace: Path, observer: StageObserver | None = None) -> None:
         pipeline_names = tuple(s.name for s in DEFAULT_PIPELINE)
         ctx = RunContext(workspace, pipeline_names=pipeline_names)
-        run_stages(ctx, DEFAULT_PIPELINE, observer=observer)
+        run_stages(ctx, DEFAULT_PIPELINE, observer=observer)  # type: ignore[arg-type]
 
     def run_compare_only(self, workspace: Path, observer: StageObserver | None = None) -> None:
         from psystack.pipeline.stages import CompareStage
         stages = (CompareStage(),)
         pipeline_names = tuple(s.name for s in stages)
         ctx = RunContext(workspace, pipeline_names=pipeline_names)
-        run_stages(ctx, stages, observer=observer)
+        run_stages(ctx, stages, observer=observer)  # type: ignore[arg-type]
 
     def run_isolate_only(self, workspace: Path, observer: StageObserver | None = None) -> None:
         from psystack.pipeline.stages import AttributeStage, IsolateStage
@@ -352,14 +352,14 @@ class TuiBackendService:
         ctx.mark_reused("compare")
         ctx.mark_reused("events")
         ctx.save_state()
-        run_stages(ctx, stages, observer=observer)
+        run_stages(ctx, stages, observer=observer)  # type: ignore[arg-type]
 
     def run_report_only(self, workspace: Path, observer: StageObserver | None = None) -> None:
         from psystack.pipeline.stages import ReportStage
         stages = (ReportStage(),)
         pipeline_names = tuple(s.name for s in DEFAULT_PIPELINE)
         ctx = RunContext(workspace, pipeline_names=pipeline_names)
-        run_stages(ctx, stages, observer=observer)
+        run_stages(ctx, stages, observer=observer)  # type: ignore[arg-type]
 
     # ── Evaluation ──
 
@@ -480,7 +480,7 @@ class TuiBackendService:
             path = ws / "runs" / side / "episodes.json"
             if not path.exists():
                 raise FileNotFoundError(f"Episode data not found: {path}")
-            return json.loads(path.read_text())
+            return json.loads(path.read_text())  # type: ignore[no-any-return]
 
         raw_a = _load_side_episodes(workspace, "a")
         raw_b = _load_side_episodes(workspace, "b")
