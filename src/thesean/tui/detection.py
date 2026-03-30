@@ -157,16 +157,29 @@ def _try_detect_adapter(project_root: Path) -> str | None:
 # ── Recent cases persistence ──
 
 
+def _migrate_app_dir(new_dir: Path) -> None:
+    """Rename old Application Support dirs (TheSean, Thesean) → thesean."""
+    if new_dir.exists():
+        return
+    for old_name in ("TheSean", "Thesean"):
+        old_dir = new_dir.parent / old_name
+        if old_dir.is_dir():
+            try:
+                old_dir.rename(new_dir)
+            except OSError:
+                pass
+            return
+
+
 def _recent_cases_path() -> Path:
     """Platform-aware path for recent cases file."""
     if sys.platform == "darwin":
-        base = Path.home() / "Library" / "Application Support" / "TheSean"
+        base = Path.home() / "Library" / "Application Support" / "thesean"
     elif sys.platform == "win32":
-        appdata = Path.home() / "AppData" / "Roaming" / "TheSean"
-        base = appdata
+        base = Path.home() / "AppData" / "Roaming" / "thesean"
     else:
-        xdg = Path.home() / ".local" / "share"
-        base = xdg / "thesean"
+        base = Path.home() / ".local" / "share" / "thesean"
+    _migrate_app_dir(base)
     return base / "recent.json"
 
 

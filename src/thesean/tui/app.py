@@ -1,4 +1,4 @@
-"""TheSeanApp — case-based investigation workspace."""
+"""TheseanApp — case-based investigation workspace."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from thesean.pipeline.live_update import LivePairFrame
 from thesean.pipeline.paired_runner import EvalCancelled as _EvalCancelled
 from thesean.pipeline.state import StageResult
 from thesean.pipeline.workspace import ERR_ANALYSIS, save_failed_attempt, update_case_state
-from thesean.tui.actions import TheSeanActions
+from thesean.tui.actions import TheseanActions
 from thesean.tui.detection import (
     detect_context,
     load_recent_cases,
@@ -67,7 +67,7 @@ def _fallback_pair_view(frame: LivePairFrame) -> "LivePairTelemetryView":  # typ
 class TuiStageObserver:
     """Bridges pipeline StageObserver calls to TUI updates via call_from_thread."""
 
-    def __init__(self, app: TheSeanApp) -> None:
+    def __init__(self, app: TheseanApp) -> None:
         self.app = app
 
     def on_stage_start(self, name: str) -> None:
@@ -101,10 +101,10 @@ def _queue_put_newest(q: _queue_mod.Queue, item: object) -> None:
             pass
 
 
-class TheSeanApp(App):
+class TheseanApp(App):
     CSS_PATH = "styles/app.tcss"
 
-    TITLE = "TheSean"
+    TITLE = "Thesean"
 
     BINDINGS = [
         Binding("ctrl+c", "quit", "Quit"),
@@ -140,7 +140,7 @@ class TheSeanApp(App):
 
         self.state = AppState()
         self.backend = TuiBackendService()
-        self.actions_handler = TheSeanActions(self, self.backend)
+        self.actions_handler = TheseanActions(self, self.backend)
         self._explicit_workspace = explicit_workspace
         # Live monitoring state (4B)
         self._live_queue: _queue_mod.Queue | None = None
@@ -190,7 +190,7 @@ class TheSeanApp(App):
             self.pop_screen()
 
     def on_mount(self) -> None:
-        self.title = "TheSean"
+        self.title = "Thesean"
 
         # Detect context from cwd
         ctx = detect_context(Path.cwd(), explicit_workspace=self._explicit_workspace)
@@ -200,6 +200,24 @@ class TheSeanApp(App):
             self.load_workspace(ctx.case)
         else:
             self._open_run_builder()
+
+        self.run_worker(self._check_version_worker, thread=True)
+
+    def _check_version_worker(self) -> None:
+        from thesean.cli.version_check import _fetch_latest_version
+
+        latest = _fetch_latest_version()
+        if latest:
+            from thesean import __version__
+
+            self._safe_call(
+                self.notify,
+                f"Thesean {latest} available (you have {__version__}). "
+                f"Run: pip install --upgrade thesean",
+                title="Update available",
+                severity="warning",
+                timeout=10,
+            )
 
     # ── Workspace loading ──
 
