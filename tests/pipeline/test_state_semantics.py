@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from psystack.pipeline.state import RunState, StageResult, StageState
+from thesean.pipeline.state import RunState, StageResult, StageState
 
 
 class TestStageState:

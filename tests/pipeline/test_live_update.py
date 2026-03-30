@@ -7,7 +7,7 @@ import queue
 
 import pytest
 
-from psystack.pipeline.live_update import LiveStepUpdate
+from thesean.pipeline.live_update import LiveStepUpdate
 
 
 class TestLiveStepUpdatePicklable:
@@ -41,7 +41,7 @@ class TestLiveStepUpdatePicklable:
 
 class TestQueuePutNewest:
     def test_drops_oldest_when_full(self):
-        from psystack.tui.app import _queue_put_newest
+        from thesean.tui.app import _queue_put_newest
 
         q: queue.Queue = queue.Queue(maxsize=2)
         _queue_put_newest(q, "a")
@@ -55,7 +55,7 @@ class TestQueuePutNewest:
         assert items == ["b", "c"]
 
     def test_put_into_empty_queue(self):
-        from psystack.tui.app import _queue_put_newest
+        from thesean.tui.app import _queue_put_newest
 
         q: queue.Queue = queue.Queue(maxsize=5)
         _queue_put_newest(q, "x")
@@ -71,7 +71,7 @@ class TestStepCallbackInRunEpisodes:
 
         import numpy as np
 
-        from psystack.pipeline.episodes import run_episodes
+        from thesean.pipeline.episodes import run_episodes
 
         # Mock env
         env = MagicMock()
@@ -112,7 +112,7 @@ class TestStepCallbackInRunEpisodes:
 
         import numpy as np
 
-        from psystack.pipeline.episodes import run_episodes
+        from thesean.pipeline.episodes import run_episodes
 
         env = MagicMock()
         env.reset.return_value = {"aux": np.array([1.0])}

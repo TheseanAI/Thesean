@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from psystack.models.event import Event
+from thesean.models.event import Event
 
 
 def make_events(n: int = 3) -> list[Event]:

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.tui.detection import DetectedContext, detect_context
+from thesean.tui.detection import DetectedContext, detect_context
 
 
 @pytest.mark.unit
@@ -28,11 +28,11 @@ class TestDetectContextEdgeCases:
         ctx = detect_context(empty)
         assert ctx.case is None
 
-    def test_psystack_toml_detected_as_case(self, tmp_path) -> None:
-        """Directory with psystack.toml is detected as a case."""
+    def test_thesean_toml_detected_as_case(self, tmp_path) -> None:
+        """Directory with thesean.toml is detected as a case."""
         ws = tmp_path / "case1"
         ws.mkdir()
-        (ws / "psystack.toml").write_text("[adapter]\ntype = 'f1'\n")
+        (ws / "thesean.toml").write_text("[adapter]\ntype = 'f1'\n")
         ctx = detect_context(ws)
         assert ctx.case == ws.resolve()
 

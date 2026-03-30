@@ -1,8 +1,8 @@
- # PsyStack
+ # TheSean
 
  A regression investigation harness for ML pipelines, latent action systems, and world models.
 
- PsyStack runs paired A/B evaluations across ML/world model experiments, detects regressions, and provides an interactive investigation workbench for debugging episode-level divergences.
+ TheSean runs paired A/B evaluations across ML/world model experiments, detects regressions, and provides an interactive investigation workbench for debugging episode-level divergences.
 
  ## What it does
 
@@ -18,10 +18,10 @@
  ### Install
 
 ```bash
-pip install psystack
+pip install thesean
 ```
 
- ### Prerequisites: PsyStack requires an ML repo with a compatible adapter.
+ ### Prerequisites: TheSean requires an ML repo with a compatible adapter.
 
  The only available adapter is for [f1worldmodel](https://github.com/justinsiek/f1worldmodel).
 
@@ -34,7 +34,7 @@ cd into the ML repo project root:
 Example:
 ```bash
   cd f1worldmodel
-  psystack
+  thesean
 ```
 
  This launches the TUI. From there:

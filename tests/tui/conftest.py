@@ -6,12 +6,12 @@ from pathlib import Path
 
 import pytest
 
-from psystack.tui.detection import DetectedContext
+from thesean.tui.detection import DetectedContext
 
 # ── Example workspace fixtures ──
 
 def _project_root() -> Path:
-    """Resolve psystack project root (contains pyproject.toml)."""
+    """Resolve thesean project root (contains pyproject.toml)."""
     here = Path(__file__).resolve()
     for parent in [here, *here.parents]:
         if (parent / "pyproject.toml").exists():
@@ -39,18 +39,18 @@ def empty_workspace() -> Path:
 
 @pytest.fixture()
 def patched_app(example_workspace: Path, monkeypatch: pytest.MonkeyPatch):
-    """PsyStackApp pointed at the F1 workspace with adapter loading stubbed."""
-    from psystack.tui.app import PsyStackApp
+    """TheSeanApp pointed at the F1 workspace with adapter loading stubbed."""
+    from thesean.tui.app import TheSeanApp
     from tests.conftest import DummyAdapterFactory
 
     factory = DummyAdapterFactory()
 
     monkeypatch.setattr(
-        "psystack.pipeline.context.load_adapter_factory",
+        "thesean.pipeline.context.load_adapter_factory",
         lambda name: factory,
     )
     monkeypatch.setattr(
-        "psystack.tui.detection.detect_context",
+        "thesean.tui.detection.detect_context",
         lambda start, explicit_workspace=None: DetectedContext(
             case=example_workspace,
             project_root=example_workspace,
@@ -58,27 +58,27 @@ def patched_app(example_workspace: Path, monkeypatch: pytest.MonkeyPatch):
         ),
     )
     monkeypatch.setattr(
-        "psystack.cli.wizard.discovery.load_factory",
+        "thesean.cli.wizard.discovery.load_factory",
         lambda name: factory,
     )
 
-    return PsyStackApp(explicit_workspace=example_workspace)
+    return TheSeanApp(explicit_workspace=example_workspace)
 
 
 @pytest.fixture()
 def patched_empty_app(empty_workspace: Path, monkeypatch: pytest.MonkeyPatch):
-    """PsyStackApp pointed at the draft F1 workspace."""
-    from psystack.tui.app import PsyStackApp
+    """TheSeanApp pointed at the draft F1 workspace."""
+    from thesean.tui.app import TheSeanApp
     from tests.conftest import DummyAdapterFactory
 
     factory = DummyAdapterFactory()
 
     monkeypatch.setattr(
-        "psystack.pipeline.context.load_adapter_factory",
+        "thesean.pipeline.context.load_adapter_factory",
         lambda name: factory,
     )
     monkeypatch.setattr(
-        "psystack.tui.detection.detect_context",
+        "thesean.tui.detection.detect_context",
         lambda start, explicit_workspace=None: DetectedContext(
             case=empty_workspace,
             project_root=empty_workspace,
@@ -86,8 +86,8 @@ def patched_empty_app(empty_workspace: Path, monkeypatch: pytest.MonkeyPatch):
         ),
     )
     monkeypatch.setattr(
-        "psystack.cli.wizard.discovery.load_factory",
+        "thesean.cli.wizard.discovery.load_factory",
         lambda name: factory,
     )
 
-    return PsyStackApp(explicit_workspace=empty_workspace)
+    return TheSeanApp(explicit_workspace=empty_workspace)

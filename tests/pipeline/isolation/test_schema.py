@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from psystack.models.isolation import (
+from thesean.models.isolation import (
     AttributionTable,
     EffectEstimate,
     IsolationCase,
     IsolationPlan,
     IsolationResultBundle,
 )
-from psystack.models.swap import SwapFactors, SwapTestResult
+from thesean.models.swap import SwapFactors, SwapTestResult
 
 
 class TestIsolationPlan:

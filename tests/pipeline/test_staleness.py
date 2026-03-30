@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.models.case import Case
-from psystack.models.evaluation_result import ConfigSnapshot, EvaluationResult
-from psystack.models.run import Run
-from psystack.pipeline.staleness import is_result_stale
+from thesean.models.case import Case
+from thesean.models.evaluation_result import ConfigSnapshot, EvaluationResult
+from thesean.models.run import Run
+from thesean.pipeline.staleness import is_result_stale
 
 
 def _make_case(**kw) -> Case:

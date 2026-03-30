@@ -4,21 +4,21 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from psystack.core.contracts import (
+from thesean.core.contracts import (
     AdapterFactory,
     EnvPlugin,
     MetricPlugin,
     PlannerPlugin,
     WorldModelPlugin,
 )
-from psystack.pipeline.episodes import run_episodes
+from thesean.pipeline.episodes import run_episodes
 
 
 class TestAdapterContract:
     """Run against DummyAdapterFactory by default (via dummy_factory fixture).
 
     The F1 adapter can be tested by overriding the factory fixture
-    in an F1-specific conftest when PSYSTACK_F1_REPO is set.
+    in an F1-specific conftest when THESEAN_F1_REPO is set.
     """
 
     def test_is_adapter_factory(self, dummy_factory: AdapterFactory) -> None:

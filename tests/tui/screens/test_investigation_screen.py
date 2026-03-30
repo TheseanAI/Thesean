@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.tui.state import CaseState, ScreenMode, screen_mode_from_case_state
+from thesean.tui.state import CaseState, ScreenMode, screen_mode_from_case_state
 
 
 @pytest.mark.tui

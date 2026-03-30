@@ -8,8 +8,8 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from psystack.pipeline.compare.stats import adjust_pvalues, bootstrap_ci
-from psystack.pipeline.compare_module import _compute_metric
+from thesean.pipeline.compare.stats import adjust_pvalues, bootstrap_ci
+from thesean.pipeline.compare_module import _compute_metric
 
 
 @pytest.mark.unit

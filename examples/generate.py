@@ -12,13 +12,13 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from psystack.models.case import Case
-from psystack.models.comparison import ComparisonReport, MetricComparison
-from psystack.models.episode import EpisodeRecord, OutcomeSummary
-from psystack.models.evaluation_result import ConfigSnapshot, EvaluationResult
-from psystack.models.event import Event
-from psystack.models.run import Run
-from psystack.pipeline.state import RunState, StageState
+from thesean.models.case import Case
+from thesean.models.comparison import ComparisonReport, MetricComparison
+from thesean.models.episode import EpisodeRecord, OutcomeSummary
+from thesean.models.evaluation_result import ConfigSnapshot, EvaluationResult
+from thesean.models.event import Event
+from thesean.models.run import Run
+from thesean.pipeline.state import RunState, StageState
 
 ROOT = Path(__file__).parent
 
@@ -54,8 +54,8 @@ def generate_f1_workspace() -> None:
     ws = ROOT / "f1_demo_workspace"
     ws.mkdir(parents=True, exist_ok=True)
 
-    # -- psystack.toml --
-    (ws / "psystack.toml").write_text(
+    # -- thesean.toml --
+    (ws / "thesean.toml").write_text(
         '[adapter]\ntype = "f1"\nrepo = "/path/to/f1tenth_gym"\n'
     )
 
@@ -277,8 +277,8 @@ def generate_f1_workspace_draft() -> None:
     ws = ROOT / "f1_demo_workspace_empty"
     ws.mkdir(parents=True, exist_ok=True)
 
-    # -- psystack.toml --
-    (ws / "psystack.toml").write_text(
+    # -- thesean.toml --
+    (ws / "thesean.toml").write_text(
         '[adapter]\ntype = "f1"\nrepo = "/path/to/f1tenth_gym"\n'
     )
 

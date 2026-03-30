@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.pipeline.events.config import EventDetectionConfig
-from psystack.pipeline.events.detection import detect_events
-from psystack.pipeline.events.divergence import (
+from thesean.pipeline.events.config import EventDetectionConfig
+from thesean.pipeline.events.detection import detect_events
+from thesean.pipeline.events.divergence import (
     compute_divergence_score,
     compute_step_deltas,
     extract_step_signals,

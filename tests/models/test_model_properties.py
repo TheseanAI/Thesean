@@ -6,9 +6,9 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from psystack.models.comparison import MetricComparison
-from psystack.models.episode import EpisodeRecord, OutcomeSummary
-from psystack.models.event import Event
+from thesean.models.comparison import MetricComparison
+from thesean.models.episode import EpisodeRecord, OutcomeSummary
+from thesean.models.event import Event
 from tests.models.conftest import make_event, make_metric_comparison, make_outcome_summary
 
 # ── Strategies ──────────────────────────────────────────────────────────

@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.pipeline.context import RunContext
-from psystack.pipeline.runner import run_stages
-from psystack.pipeline.state import StageResult
+from thesean.pipeline.context import RunContext
+from thesean.pipeline.runner import run_stages
+from thesean.pipeline.state import StageResult
 
 # ── Protocol-satisfying stubs (no mocks) ─────────────────────────────
 
@@ -66,13 +66,13 @@ def _make_ctx(tmp_path, monkeypatch) -> RunContext:
     """Build minimal RunContext from temp workspace."""
     import tomli_w
 
-    from psystack.models.case import Case
-    from psystack.models.run import Run
+    from thesean.models.case import Case
+    from thesean.models.run import Run
 
     ws = tmp_path / "ws"
     ws.mkdir()
 
-    with (ws / "psystack.toml").open("wb") as f:
+    with (ws / "thesean.toml").open("wb") as f:
         tomli_w.dump({"adapter": {"type": "dummy", "repo": str(tmp_path)}}, f)
 
     case = Case(
@@ -84,7 +84,7 @@ def _make_ctx(tmp_path, monkeypatch) -> RunContext:
 
     from tests.conftest import DummyAdapterFactory
     monkeypatch.setattr(
-        "psystack.pipeline.context.load_adapter_factory",
+        "thesean.pipeline.context.load_adapter_factory",
         lambda name: DummyAdapterFactory(),
     )
     return RunContext(ws)

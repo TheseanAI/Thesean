@@ -3,7 +3,7 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "psystack"
+name = "thesean"
 version = "0.1.4"
 description = "Regression investigation harness for ML pipelines"
 requires-python = ">=3.10"
@@ -36,8 +36,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/PsyStack/PsyStack"
-Issues = "https://github.com/PsyStack/PsyStack/issues"
+Homepage = "https://github.com/theseanai/thesean"
+Issues = "https://github.com/theseanai/thesean/issues"
 
 [project.optional-dependencies]
 dev = [
@@ -49,17 +49,17 @@ dev = [
     "mypy>=1.8.0",
 ]
 
-[project.entry-points."psystack.adapters"]
-f1 = "psystack.adapters.f1.factory:F1AdapterFactory"
+[project.entry-points."thesean.adapters"]
+f1 = "thesean.adapters.f1.factory:F1AdapterFactory"
 
 [project.scripts]
-psystack = "psystack.cli.app:app"
+thesean = "thesean.cli.app:app"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-psystack = ["tui/styles/*.tcss", "reporting/templates/*.j2"]
+thesean = ["tui/styles/*.tcss", "reporting/templates/*.j2"]
 
 [tool.ruff]
 target-version = "py310"
@@ -76,11 +76,11 @@ warn_unused_configs = true
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = ["psystack.models.*", "psystack.reporting.*", "psystack.pipeline.context", "psystack.pipeline.stages.*", "psystack.core.contracts"]
+module = ["thesean.models.*", "thesean.reporting.*", "thesean.pipeline.context", "thesean.pipeline.stages.*", "thesean.core.contracts"]
 disallow_untyped_defs = true
 
 [[tool.mypy.overrides]]
-module = ["psystack.pipeline.compare.*", "psystack.pipeline.isolation.attribution"]
+module = ["thesean.pipeline.compare.*", "thesean.pipeline.isolation.attribution"]
 disallow_untyped_defs = false
 warn_return_any = false
 

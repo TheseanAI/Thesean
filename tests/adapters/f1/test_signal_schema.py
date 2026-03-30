@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.core.signal_schema import SignalDef, SignalSchema
+from thesean.core.signal_schema import SignalDef, SignalSchema
 
 
 @pytest.mark.unit

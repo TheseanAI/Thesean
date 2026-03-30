@@ -8,13 +8,13 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from psystack.models.case import Case
-from psystack.models.event import Event
-from psystack.models.explanation import Explanation
-from psystack.models.manifest import RunManifest
-from psystack.models.project import DiscoveredAssets, Project
-from psystack.models.run import Run
-from psystack.models.signal import SignalValue
+from thesean.models.case import Case
+from thesean.models.event import Event
+from thesean.models.explanation import Explanation
+from thesean.models.manifest import RunManifest
+from thesean.models.project import DiscoveredAssets, Project
+from thesean.models.run import Run
+from thesean.models.signal import SignalValue
 
 # ── SignalValue ──────────────────────────────────────────────────────────
 

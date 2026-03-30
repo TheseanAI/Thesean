@@ -7,9 +7,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from psystack.pipeline.context import RunContext
-from psystack.pipeline.runner import run_stages
-from psystack.pipeline.stages import (
+from thesean.pipeline.context import RunContext
+from thesean.pipeline.runner import run_stages
+from thesean.pipeline.stages import (
     AttributeStage,
     CompareStage,
     IsolateStage,
@@ -25,7 +25,7 @@ class TestCompareStageWithDummy:
         report_path = dummy_workspace / "stage_outputs" / "compare_report.json"
         assert report_path.exists()
 
-        from psystack.models.comparison import ComparisonReport
+        from thesean.models.comparison import ComparisonReport
 
         report = ComparisonReport.model_validate_json(report_path.read_text())
         assert len(report.metrics) > 0

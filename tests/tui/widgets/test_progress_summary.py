@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from psystack.adapters.f1.signals import (
+from thesean.adapters.f1.signals import (
     _segment_curvature_bucket,
     _segment_turn_direction,
     _unwrap_heading_window,
 )
-from psystack.tui.widgets.progress_summary import (
+from thesean.tui.widgets.progress_summary import (
     _event_progress,
     _progress_to_col,
 )
@@ -15,7 +15,7 @@ from psystack.tui.widgets.progress_summary import (
 
 def _make_event(step: int, severity: str = "warning") -> "Event":  # noqa: F821
     """Create a minimal Event for testing."""
-    from psystack.models.event import Event
+    from thesean.models.event import Event
 
     return Event(id=f"evt-{step}", type="first_divergence", step=step, severity=severity)
 

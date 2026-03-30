@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.models.episode import EpisodeOutcome, EpisodeRecord
-from psystack.pipeline.compare_module import CompareResult, compare_results
+from thesean.models.episode import EpisodeOutcome, EpisodeRecord
+from thesean.pipeline.compare_module import CompareResult, compare_results
 
 
 def _make_outcome(

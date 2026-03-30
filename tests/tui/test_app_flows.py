@@ -19,7 +19,7 @@ def _static_text(widget) -> str:
 
 async def test_ready_workspace_opens_case_verdict(patched_app):
     """Launch with ready workspace -> CaseVerdictScreen."""
-    from psystack.tui.screens.case_verdict import CaseVerdictScreen
+    from thesean.tui.screens.case_verdict import CaseVerdictScreen
 
     async with patched_app.run_test(size=(120, 40)) as pilot:
         await pilot.pause()
@@ -29,7 +29,7 @@ async def test_ready_workspace_opens_case_verdict(patched_app):
 
 async def test_draft_workspace_opens_case_verdict_idle(patched_empty_app):
     """Draft workspace with no results opens CaseVerdictScreen in idle mode."""
-    from psystack.tui.screens.case_verdict import CaseVerdictScreen
+    from thesean.tui.screens.case_verdict import CaseVerdictScreen
 
     async with patched_empty_app.run_test(size=(120, 40)) as pilot:
         await pilot.pause()
@@ -41,7 +41,7 @@ async def test_verdict_block_shows_regression(patched_app):
     """Verdict block should contain regression text when outcomes show regression."""
     from textual.widgets import Static
 
-    from psystack.tui.screens.case_verdict import CaseVerdictScreen
+    from thesean.tui.screens.case_verdict import CaseVerdictScreen
 
     async with patched_app.run_test(size=(120, 40)) as pilot:
         await pilot.pause()
@@ -57,7 +57,7 @@ async def test_episode_table_has_rows(patched_app):
     """Episode table should be populated with 2 rows matching episode_count."""
     from textual.widgets import DataTable
 
-    from psystack.tui.screens.case_verdict import CaseVerdictScreen
+    from thesean.tui.screens.case_verdict import CaseVerdictScreen
 
     async with patched_app.run_test(size=(120, 40)) as pilot:
         await pilot.pause()
@@ -70,8 +70,8 @@ async def test_episode_table_has_rows(patched_app):
 
 async def test_b_opens_builder_escape_returns(patched_app):
     """Press b to open RunBuilder, escape to return to CaseVerdict."""
-    from psystack.tui.screens.case_verdict import CaseVerdictScreen
-    from psystack.tui.screens.run_builder import RunBuilderScreen
+    from thesean.tui.screens.case_verdict import CaseVerdictScreen
+    from thesean.tui.screens.run_builder import RunBuilderScreen
 
     async with patched_app.run_test(size=(120, 40)) as pilot:
         await pilot.pause()
@@ -89,8 +89,8 @@ async def test_b_opens_builder_escape_returns(patched_app):
 
 async def test_enter_drills_into_investigation(patched_app):
     """Selecting an episode opens InvestigationScreen."""
-    from psystack.tui.screens.case_verdict import CaseVerdictScreen
-    from psystack.tui.screens.investigation import InvestigationScreen
+    from thesean.tui.screens.case_verdict import CaseVerdictScreen
+    from thesean.tui.screens.investigation import InvestigationScreen
 
     async with patched_app.run_test(size=(120, 40)) as pilot:
         await pilot.pause()
@@ -108,9 +108,9 @@ async def test_enter_drills_into_investigation(patched_app):
 
 async def test_investigation_step_navigation(patched_app):
     """In investigation screen, step_forward/backward update TransportBar."""
-    from psystack.tui.screens.case_verdict import CaseVerdictScreen
-    from psystack.tui.screens.investigation import InvestigationScreen
-    from psystack.tui.widgets.transport_bar import TransportBar
+    from thesean.tui.screens.case_verdict import CaseVerdictScreen
+    from thesean.tui.screens.investigation import InvestigationScreen
+    from thesean.tui.widgets.transport_bar import TransportBar
 
     async with patched_app.run_test(size=(120, 40)) as pilot:
         await pilot.pause()
@@ -143,7 +143,7 @@ async def test_investigation_step_navigation(patched_app):
 
 async def test_command_palette_opens_and_closes(patched_app):
     """Slash opens command palette, escape closes it."""
-    from psystack.tui.screens.command_palette import CommandPaletteModal
+    from thesean.tui.screens.command_palette import CommandPaletteModal
 
     async with patched_app.run_test(size=(120, 40)) as pilot:
         await pilot.pause()
@@ -174,7 +174,7 @@ async def test_draft_shows_idle_verdict(patched_empty_app):
     """Draft workspace verdict block shows no-results message."""
     from textual.widgets import Static
 
-    from psystack.tui.screens.case_verdict import CaseVerdictScreen
+    from thesean.tui.screens.case_verdict import CaseVerdictScreen
 
     async with patched_empty_app.run_test(size=(120, 40)) as pilot:
         await pilot.pause()

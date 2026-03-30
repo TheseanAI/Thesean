@@ -25,8 +25,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
       - run: python -m pip install -e ".[dev]"
-      - run: ruff check src/psystack/ tests/
-      - run: mypy src/psystack/
+      - run: ruff check src/thesean/ tests/
+      - run: mypy src/thesean/
       - run: pytest tests/ -q -m "not f1"
 
   f1-smoke:
@@ -42,4 +42,4 @@ jobs:
       - run: python -m pip install -e ".[dev]"
       - run: pytest tests/ -q -m "f1"
         env:
-          PSYSTACK_F1_REPO: ${{ vars.PSYSTACK_F1_REPO }}
+          THESEAN_F1_REPO: ${{ vars.THESEAN_F1_REPO }}

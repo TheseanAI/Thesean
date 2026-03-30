@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.models.case import Case
-from psystack.models.run import Run
-from psystack.tui.widgets.case_bar import CaseBar
+from thesean.models.case import Case
+from thesean.models.run import Run
+from thesean.tui.widgets.case_bar import CaseBar
 
 
 @pytest.mark.unit

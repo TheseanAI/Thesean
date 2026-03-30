@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.adapters.f1.signals import F1SignalTranslator
+from thesean.adapters.f1.signals import F1SignalTranslator
 
 
 class TestF1SignalTranslator:

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.tui.widgets.transport_bar import TransportBar
+from thesean.tui.widgets.transport_bar import TransportBar
 
 
 @pytest.mark.unit

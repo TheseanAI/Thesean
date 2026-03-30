@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from psystack.models.episode import (
+from thesean.models.episode import (
     METRIC_DISPLAY_NAMES,
     EpisodeRecord,
     OutcomeSummary,

@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from psystack.models.case import Case
-from psystack.models.run import Run
-from psystack.pipeline.context import RunContext, StageNameError
+from thesean.models.case import Case
+from thesean.models.run import Run
+from thesean.pipeline.context import RunContext, StageNameError
 
 
 @pytest.fixture()
@@ -16,7 +16,7 @@ def workspace(tmp_path: Path) -> Path:
     """Create a minimal valid workspace."""
     import tomli_w
 
-    from psystack.models import RunManifest
+    from thesean.models import RunManifest
 
     repo = tmp_path / "fake-f1-repo"
     repo.mkdir()
@@ -33,7 +33,7 @@ def workspace(tmp_path: Path) -> Path:
     }
     planner = {"num_candidates": 200, "horizon": 10, "iterations": 3, "num_elites": 20}
 
-    with (tmp_path / "psystack.toml").open("wb") as f:
+    with (tmp_path / "thesean.toml").open("wb") as f:
         tomli_w.dump({"adapter": {"type": "f1", "repo": str(repo)}}, f)
 
     b = RunManifest(run_id="baseline", world_model_weights=weights,

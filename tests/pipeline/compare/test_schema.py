@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from psystack.models.comparison import ComparisonReport, MetricComparison
+from thesean.models.comparison import ComparisonReport, MetricComparison
 
 
 class TestMetricComparison:

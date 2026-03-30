@@ -9,11 +9,11 @@ import json
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from psystack.models import RunManifest
-from psystack.models.comparison import ComparisonReport, MetricComparison
-from psystack.pipeline.stages.report import ReportStage, _report_outputs_are_valid
-from psystack.reporting.evidence import materialize_evidence_pack_from_bundle
-from psystack.reporting.types import ReportBundle, ReportSummary
+from thesean.models import RunManifest
+from thesean.models.comparison import ComparisonReport, MetricComparison
+from thesean.pipeline.stages.report import ReportStage, _report_outputs_are_valid
+from thesean.reporting.evidence import materialize_evidence_pack_from_bundle
+from thesean.reporting.types import ReportBundle, ReportSummary
 
 
 def _make_manifest(run_id: str = "run_1") -> RunManifest:

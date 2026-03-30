@@ -7,7 +7,7 @@ maps encoder weight shapes → raster_size and aux_dim.
 import torch
 import pytest
 
-from psystack.adapters.f1.world_model import F1WorldModelAdapter
+from thesean.adapters.f1.world_model import F1WorldModelAdapter
 
 
 def _make_fake_state_dict(raster_size: int, aux_dim: int) -> dict[str, torch.Tensor]:
@@ -72,7 +72,7 @@ def test_defaults_before_load():
 
 def test_default_env_config_uses_world_model_raster_size():
     """default_env_config should use world_model.raster_size when provided."""
-    from psystack.adapters.f1.factory import F1AdapterFactory
+    from thesean.adapters.f1.factory import F1AdapterFactory
 
     factory = F1AdapterFactory()
 

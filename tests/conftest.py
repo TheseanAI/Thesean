@@ -9,9 +9,9 @@ import numpy as np
 import pytest
 import tomli_w
 
-from psystack.models import RunManifest
-from psystack.models.case import Case
-from psystack.models.run import Run
+from thesean.models import RunManifest
+from thesean.models.case import Case
+from thesean.models.run import Run
 
 # ---------------------------------------------------------------------------
 # Dummy adapter components — satisfy all Protocol contracts from protocols.py
@@ -178,8 +178,8 @@ def dummy_workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     ws = tmp_path / "ws"
     ws.mkdir()
 
-    # psystack.toml
-    with (ws / "psystack.toml").open("wb") as f:
+    # thesean.toml
+    with (ws / "thesean.toml").open("wb") as f:
         tomli_w.dump({"adapter": {"type": "dummy", "repo": str(tmp_path)}}, f)
 
     # Manifests — use identical configs so compare produces no regressions
@@ -232,7 +232,7 @@ def dummy_workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
 
     # Monkeypatch adapter loading in RunContext
     monkeypatch.setattr(
-        "psystack.pipeline.context.load_adapter_factory",
+        "thesean.pipeline.context.load_adapter_factory",
         lambda name: DummyAdapterFactory(),
     )
 

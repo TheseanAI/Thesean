@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from psystack.pipeline.compare.decision import classify_metric
+from thesean.pipeline.compare.decision import classify_metric
 
 
 class TestClassifyMetric:

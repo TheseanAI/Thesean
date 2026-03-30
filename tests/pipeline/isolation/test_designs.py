@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.pipeline.isolation import build_isolation_plan
-from psystack.pipeline.isolation.designs import screening_v1
+from thesean.pipeline.isolation import build_isolation_plan
+from thesean.pipeline.isolation.designs import screening_v1
 
 
 class TestScreeningV1:

@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from psystack.models.comparison import MetricComparison
-from psystack.models.episode import EpisodeRecord, OutcomeSummary
-from psystack.models.event import Event
+from thesean.models.comparison import MetricComparison
+from thesean.models.episode import EpisodeRecord, OutcomeSummary
+from thesean.models.event import Event
 
 
 def make_event(

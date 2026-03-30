@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from psystack.adapters.f1.signals import F1SignalTranslator
+from thesean.adapters.f1.signals import F1SignalTranslator
 
 
 @pytest.mark.unit

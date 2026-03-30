@@ -2,8 +2,8 @@
 
 import pytest
 
-from psystack.models.episode import EpisodeOutcome, EpisodeRecord
-from psystack.pipeline.compare_module import (
+from thesean.models.episode import EpisodeOutcome, EpisodeRecord
+from thesean.pipeline.compare_module import (
     CompareResult,
     MetricResult,
     build_episode_outcome,

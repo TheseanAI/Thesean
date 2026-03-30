@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.models.case import Case
-from psystack.models.run import Run
+from thesean.models.case import Case
+from thesean.models.run import Run
 
 
 @pytest.mark.tui

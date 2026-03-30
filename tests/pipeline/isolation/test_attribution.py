@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from psystack.models.comparison import MetricComparison
-from psystack.models.metric import MetricResult
-from psystack.models.swap import SwapTestResult
-from psystack.pipeline.isolation.attribution import compute_attribution
+from thesean.models.comparison import MetricComparison
+from thesean.models.metric import MetricResult
+from thesean.models.swap import SwapTestResult
+from thesean.pipeline.isolation.attribution import compute_attribution
 
 
 def _metric(

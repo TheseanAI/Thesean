@@ -5,18 +5,18 @@ from __future__ import annotations
 import pytest
 import tomli_w
 
-from psystack.models.case import Case
-from psystack.models.run import Run
-from psystack.pipeline.context import RunContext
-from psystack.pipeline.runner import run_stages
-from psystack.pipeline.state import StageResult, StageState
+from thesean.models.case import Case
+from thesean.models.run import Run
+from thesean.pipeline.context import RunContext
+from thesean.pipeline.runner import run_stages
+from thesean.pipeline.state import StageResult, StageState
 from tests.conftest import DummyAdapterFactory
 
 
 def _make_ctx(tmp_path, monkeypatch, **kw) -> RunContext:
     ws = tmp_path / "ws"
     ws.mkdir(exist_ok=True)
-    with (ws / "psystack.toml").open("wb") as f:
+    with (ws / "thesean.toml").open("wb") as f:
         tomli_w.dump({"adapter": {"type": "dummy", "repo": str(tmp_path)}}, f)
     case = Case(
         id="test",
@@ -25,7 +25,7 @@ def _make_ctx(tmp_path, monkeypatch, **kw) -> RunContext:
     )
     (ws / "case.json").write_text(case.model_dump_json())
     monkeypatch.setattr(
-        "psystack.pipeline.context.load_adapter_factory",
+        "thesean.pipeline.context.load_adapter_factory",
         lambda name: DummyAdapterFactory(),
     )
     return RunContext(ws, **kw)

@@ -6,9 +6,9 @@ import pytest
 
 pytest.importorskip("planner", reason="F1 adapter deps not available")
 
-from psystack.adapters.f1.factory import F1AdapterFactory
-from psystack.adapters.f1.signals import F1SignalTranslator
-from psystack.core.contracts import SignalTranslator
+from thesean.adapters.f1.factory import F1AdapterFactory
+from thesean.adapters.f1.signals import F1SignalTranslator
+from thesean.core.contracts import SignalTranslator
 
 
 class TestF1AdapterExtensions:

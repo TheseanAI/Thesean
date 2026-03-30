@@ -5,10 +5,10 @@ from __future__ import annotations
 import pytest
 from textual.app import App, ComposeResult
 
-from psystack.models.event import Event
-from psystack.tui.widgets.event_navigator import EventNavigator
-from psystack.tui.widgets.transport_bar import TransportBar
-from psystack.tui.widgets.verdict_strip import VerdictStrip
+from thesean.models.event import Event
+from thesean.tui.widgets.event_navigator import EventNavigator
+from thesean.tui.widgets.transport_bar import TransportBar
+from thesean.tui.widgets.verdict_strip import VerdictStrip
 
 pytestmark = [pytest.mark.asyncio, pytest.mark.tui]
 
@@ -147,7 +147,7 @@ async def test_verdict_strip_running():
 
 
 async def test_verdict_strip_verdict():
-    from psystack.models.episode import OutcomeSummary
+    from thesean.models.episode import OutcomeSummary
 
     outcomes = OutcomeSummary(
         verdict="regression",

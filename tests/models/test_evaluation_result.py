@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.models.evaluation_result import ConfigSnapshot, EvaluationResult
+from thesean.models.evaluation_result import ConfigSnapshot, EvaluationResult
 
 
 @pytest.mark.unit

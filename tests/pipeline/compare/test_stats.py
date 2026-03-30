@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from psystack.pipeline.compare.stats import adjust_pvalues, bootstrap_ci, paired_pvalue
+from thesean.pipeline.compare.stats import adjust_pvalues, bootstrap_ci, paired_pvalue
 
 
 class TestBootstrapCI:

@@ -5,18 +5,18 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from psystack.models import RunManifest
-from psystack.models.case import Case
-from psystack.models.comparison import ComparisonReport, MetricComparison
-from psystack.models.isolation import (
+from thesean.models import RunManifest
+from thesean.models.case import Case
+from thesean.models.comparison import ComparisonReport, MetricComparison
+from thesean.models.isolation import (
     AttributionTable,
     EffectEstimate,
     IsolationCase,
     IsolationResultBundle,
 )
-from psystack.models.run import Run
-from psystack.models.swap import SwapFactors
-from psystack.reporting.bundle import build_report_bundle
+from thesean.models.run import Run
+from thesean.models.swap import SwapFactors
+from thesean.reporting.bundle import build_report_bundle
 
 
 def _make_manifest(run_id: str = "run_1") -> RunManifest:
@@ -168,7 +168,7 @@ class TestBuildReportBundle:
         assert "attribute" in kinds
 
     def test_evidence_pack_uses_typed_attributions(self, tmp_path: Path) -> None:
-        from psystack.reporting.evidence import materialize_evidence_pack_from_bundle
+        from thesean.reporting.evidence import materialize_evidence_pack_from_bundle
 
         ws = _setup_workspace(tmp_path, include_attribution=True)
         bundle = build_report_bundle(ws)

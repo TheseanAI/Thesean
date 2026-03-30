@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from psystack.tui.state import CaseState, RuntimeStatus, ScreenMode, screen_mode_from_case_state
+from thesean.tui.state import CaseState, RuntimeStatus, ScreenMode, screen_mode_from_case_state
 
 
 @pytest.mark.unit
@@ -45,25 +45,25 @@ class TestRuntimeStatusRunInProgress:
     def test_idle_not_in_progress(self) -> None:
         """INV-4-3: run_in_progress is False for idle."""
         rs = RuntimeStatus(mode="idle")
-        from psystack.tui.state import AppState
+        from thesean.tui.state import AppState
         state = AppState(runtime=rs)
         assert state.run_in_progress is False
 
     def test_complete_not_in_progress(self) -> None:
         rs = RuntimeStatus(mode="complete")
-        from psystack.tui.state import AppState
+        from thesean.tui.state import AppState
         state = AppState(runtime=rs)
         assert state.run_in_progress is False
 
     def test_error_not_in_progress(self) -> None:
         rs = RuntimeStatus(mode="error")
-        from psystack.tui.state import AppState
+        from thesean.tui.state import AppState
         state = AppState(runtime=rs)
         assert state.run_in_progress is False
 
     def test_running_modes_are_in_progress(self) -> None:
         """All active modes should show run_in_progress=True."""
-        from psystack.tui.state import AppState
+        from thesean.tui.state import AppState
         active_modes = [
             "loading_case", "creating_case",
             "running_compare", "running_isolate", "running_attribute", "running_report",

@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from psystack.models import RunManifest
-from psystack.models.comparison import ComparisonReport, MetricComparison
-from psystack.reporting.types import ArtifactRef, ReportBundle, ReportSummary
+from thesean.models import RunManifest
+from thesean.models.comparison import ComparisonReport, MetricComparison
+from thesean.reporting.types import ArtifactRef, ReportBundle, ReportSummary
 
 
 def _make_manifest(run_id: str = "run_1") -> RunManifest:
