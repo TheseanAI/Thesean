@@ -42,7 +42,7 @@ def display_review(answers: InitAnswers) -> None:
         table.add_row("Planner config", "(using defaults)")
 
     console.print()
-    console.print(Panel(table, title="TheSean Init Review", border_style="cyan"))
+    console.print(Panel(table, title="Thesean Init Review", border_style="cyan"))
     console.print()
 
 

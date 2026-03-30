@@ -53,7 +53,7 @@ def run_stages(
 
     with progress_ctx as progress:
         if progress is not None:
-            task_id = progress.add_task("TheSean pipeline", total=len(stages))
+            task_id = progress.add_task("Thesean pipeline", total=len(stages))
 
         for stage in stages:
             # 1. Explicit skip

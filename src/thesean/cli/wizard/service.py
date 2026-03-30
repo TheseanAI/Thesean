@@ -27,7 +27,7 @@ def run_init_wizard(workspace: Path, auto_confirm: bool = False) -> None:
     """Interactive setup wizard: discover adapters/weights/envs, review, then write."""
     _ensure_interactive(auto_confirm)
 
-    typer.echo("=== TheSean Init ===\n")
+    typer.echo("=== Thesean Init ===\n")
 
     # 1. Discover and select adapter
     try:

@@ -497,7 +497,7 @@ class CaseVerdictScreen(Screen):
         # Draft body
         draft = self.query_one("#cv-draft-body", Static)
         if self._screen_mode == "idle":
-            draft.update("TheSean will run A and B in parallel, then compute verdict + episode ranking.")
+            draft.update("Thesean will run A and B in parallel, then compute verdict + episode ranking.")
         else:
             draft.update("")
 

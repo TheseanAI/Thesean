@@ -1,4 +1,4 @@
-"""TheSean settings: Pydantic-backed config with workspace-explicit loading."""
+"""Thesean settings: Pydantic-backed config with workspace-explicit loading."""
 
 from __future__ import annotations
 
@@ -48,7 +48,7 @@ class EventSettings(BaseModel):
     boundary_threshold: float = 0.15
 
 
-class TheSeanSettings(BaseSettings):
+class TheseanSettings(BaseSettings):
     adapter: AdapterSettings
     run: RunDefaults = RunDefaults()
     event: EventSettings = EventSettings()
@@ -56,7 +56,7 @@ class TheSeanSettings(BaseSettings):
     model_config = SettingsConfigDict(extra="forbid")
 
 
-def load_settings_from_workspace(workspace: Path) -> TheSeanSettings:
+def load_settings_from_workspace(workspace: Path) -> TheseanSettings:
     """Load and validate settings from an explicit workspace directory."""
     workspace = workspace.expanduser().resolve()
     config_path = workspace / "thesean.toml"
@@ -69,7 +69,7 @@ def load_settings_from_workspace(workspace: Path) -> TheSeanSettings:
         )
     with config_path.open("rb") as f:
         raw = tomllib.load(f)
-    settings = TheSeanSettings.model_validate(raw)
+    settings = TheseanSettings.model_validate(raw)
     # Normalize adapter repo relative to workspace if needed
     repo = settings.adapter.repo
     if not repo.is_absolute():

@@ -18,7 +18,7 @@ class DiscoveredAssets(BaseModel):
 
 
 class Project(BaseModel):
-    """A TheSean project rooted at a repo with a bound adapter."""
+    """A Thesean project rooted at a repo with a bound adapter."""
 
     project_root: Path
     adapter_name: str

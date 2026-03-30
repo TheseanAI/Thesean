@@ -39,8 +39,8 @@ def empty_workspace() -> Path:
 
 @pytest.fixture()
 def patched_app(example_workspace: Path, monkeypatch: pytest.MonkeyPatch):
-    """TheSeanApp pointed at the F1 workspace with adapter loading stubbed."""
-    from thesean.tui.app import TheSeanApp
+    """TheseanApp pointed at the F1 workspace with adapter loading stubbed."""
+    from thesean.tui.app import TheseanApp
     from tests.conftest import DummyAdapterFactory
 
     factory = DummyAdapterFactory()
@@ -62,13 +62,13 @@ def patched_app(example_workspace: Path, monkeypatch: pytest.MonkeyPatch):
         lambda name: factory,
     )
 
-    return TheSeanApp(explicit_workspace=example_workspace)
+    return TheseanApp(explicit_workspace=example_workspace)
 
 
 @pytest.fixture()
 def patched_empty_app(empty_workspace: Path, monkeypatch: pytest.MonkeyPatch):
-    """TheSeanApp pointed at the draft F1 workspace."""
-    from thesean.tui.app import TheSeanApp
+    """TheseanApp pointed at the draft F1 workspace."""
+    from thesean.tui.app import TheseanApp
     from tests.conftest import DummyAdapterFactory
 
     factory = DummyAdapterFactory()
@@ -90,4 +90,4 @@ def patched_empty_app(empty_workspace: Path, monkeypatch: pytest.MonkeyPatch):
         lambda name: factory,
     )
 
-    return TheSeanApp(explicit_workspace=empty_workspace)
+    return TheseanApp(explicit_workspace=empty_workspace)

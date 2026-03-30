@@ -13,9 +13,9 @@ def main(ctx: typer.Context) -> None:
     check_for_update()
 
     if ctx.invoked_subcommand is None:
-        from thesean.tui.app import TheSeanApp
+        from thesean.tui.app import TheseanApp
 
         try:
-            TheSeanApp().run()
+            TheseanApp().run()
         except (KeyboardInterrupt, SystemExit):
             pass

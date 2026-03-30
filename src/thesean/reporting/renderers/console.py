@@ -10,7 +10,7 @@ from thesean.reporting.types import ReportBundle
 
 def print_console_bundle(bundle: ReportBundle) -> None:
     console = Console()
-    table = Table(title="TheSean findings")
+    table = Table(title="Thesean findings")
     table.add_column("Metric")
     table.add_column("Status")
     table.add_column("Δ badness")

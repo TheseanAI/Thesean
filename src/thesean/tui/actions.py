@@ -7,12 +7,12 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from thesean.tui.app import TheSeanApp
+    from thesean.tui.app import TheseanApp
     from thesean.tui.services import TuiBackendService
 
 
-class TheSeanActions:
-    def __init__(self, app: TheSeanApp, backend: TuiBackendService) -> None:
+class TheseanActions:
+    def __init__(self, app: TheseanApp, backend: TuiBackendService) -> None:
         self.app = app
         self.backend = backend
 
