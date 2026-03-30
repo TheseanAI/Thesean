@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "thesean"
-version = "0.1.4"
+version = "0.1.5"
 description = "Regression investigation harness for ML pipelines"
 requires-python = ">=3.10"
 license = "MIT"
