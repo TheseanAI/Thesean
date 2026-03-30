@@ -118,8 +118,12 @@ class F1AdapterFactory:
     def default_planner_config(self) -> dict[str, Any]:
         return {"num_candidates": 400, "horizon": 25, "iterations": 4, "num_elites": 40}
 
-    def default_env_config(self, env_id: str) -> dict[str, Any]:
-        """Build full env config for given track name. Paths are absolute if repo is bound."""
+    def default_env_config(self, env_id: str, world_model: WorldModelPlugin | None = None) -> dict[str, Any]:
+        """Build full env config for given track name. Paths are absolute if repo is bound.
+
+        If world_model is provided, raster_size is inferred from checkpoint weights.
+        """
+        raster_size = world_model.raster_size if world_model is not None else 64
         track_csv = f"tracks/{env_id}.csv"
         if self._repo is not None:
             track_csv = str(self._repo / track_csv)
@@ -127,7 +131,7 @@ class F1AdapterFactory:
             "track_csv": track_csv,
             "max_speed": 50.0, "dt": 0.1, "max_steps": 1000,
             "max_steer_rate": 3.5, "off_track_tolerance": 10,
-            "raster_size": 64, "pixels_per_meter": 3.0,
+            "raster_size": raster_size, "pixels_per_meter": 3.0,
             "progress_reward": 0.02, "off_track_penalty": 0.5,
             "step_penalty": 0.005, "lap_bonus": 1.0,
         }

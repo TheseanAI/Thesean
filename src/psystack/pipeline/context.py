@@ -55,11 +55,21 @@ class RunContext:
 
         # Resolve env_config if empty (builder stores on case, not on run)
         if self.case.track_ref and not self.baseline_manifest.env_config:
-            base_env = self.factory.default_env_config(self.case.track_ref)
+            # Infer raster_size from world model checkpoints when available
+            wm_a = wm_b = None
+            try:
+                wm_a = self.factory.create_world_model(self.case.run_a.world_model_ref)
+                if self.case.run_b:
+                    wm_b = self.factory.create_world_model(self.case.run_b.world_model_ref)
+            except Exception:
+                pass  # fall back to default raster_size
+            base_env_a = self.factory.default_env_config(self.case.track_ref, world_model=wm_a)
+            base_env_b = self.factory.default_env_config(self.case.track_ref, world_model=wm_b or wm_a)
             if self.case.shared_env_overrides:
-                base_env.update(self.case.shared_env_overrides)
-            self.baseline_manifest.env_config = base_env
-            self.candidate_manifest.env_config = base_env
+                base_env_a.update(self.case.shared_env_overrides)
+                base_env_b.update(self.case.shared_env_overrides)
+            self.baseline_manifest.env_config = base_env_a
+            self.candidate_manifest.env_config = base_env_b
 
         # Stage output directory
         self.stage_output_dir = self.workspace / "stage_outputs"

@@ -420,9 +420,6 @@ class TuiBackendService:
         factory = load_factory(adapter_name)
         factory.bind_repo(repo)
 
-        env_config = factory.default_env_config(case.track_ref)
-        if case.shared_env_overrides:
-            env_config.update(case.shared_env_overrides)
         seeds = case.eval_seeds or list(range(case.episode_count))
 
         if case.run_a is None or case.run_b is None:
@@ -434,6 +431,13 @@ class TuiBackendService:
         wm_b = factory.create_world_model(case.run_b.world_model_ref)
         planner_b = factory.create_planner(dict(case.run_b.planner_config), wm_b)
 
+        # Build env configs with raster_size inferred from world model checkpoints
+        env_config_a = factory.default_env_config(case.track_ref, world_model=wm_a)
+        env_config_b = factory.default_env_config(case.track_ref, world_model=wm_b)
+        if case.shared_env_overrides:
+            env_config_a.update(case.shared_env_overrides)
+            env_config_b.update(case.shared_env_overrides)
+
         # Run paired episodes
         all_episodes_a: list[dict] = []
         all_episodes_b: list[dict] = []
@@ -444,14 +448,14 @@ class TuiBackendService:
 
             ep_seed = seeds[ep_idx] if ep_idx < len(seeds) else seeds[0] + ep_idx
 
-            env_a = factory.create_env(env_config)
-            env_b = factory.create_env(env_config)
+            env_a = factory.create_env(env_config_a)
+            env_b = factory.create_env(env_config_b)
 
             eps_a, eps_b = run_paired_episodes(
                 env_a, env_b, planner_a, planner_b,
                 num_episodes=1, seed=ep_seed,
                 pair_callback=live_sink,
-                max_steps=env_config.get("max_steps", 0),
+                max_steps=env_config_a.get("max_steps", 0),
                 cancel_event=cancel_event,
             )
             all_episodes_a.extend(eps_a)

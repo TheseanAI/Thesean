@@ -12,6 +12,16 @@ class F1WorldModelAdapter:
     def __init__(self) -> None:
         self._model = None
         self._device = "cpu"
+        self._raster_size = 64
+        self._aux_dim = 16
+
+    @property
+    def raster_size(self) -> int:
+        return self._raster_size
+
+    @property
+    def aux_dim(self) -> int:
+        return self._aux_dim
 
     def model_id(self) -> str:
         return "f1_world_model"
@@ -27,24 +37,28 @@ class F1WorldModelAdapter:
         model.eval()
         self._model = model
 
+        # Infer raster_size from encoder weights
+        # Encoder has 4 stride-2 convs (each halves spatial dim), then flattens
+        # to 256 * (raster_size/16)^2, plus a 32-dim aux embedding
+        fc_in = state_dict["encoder.fc.0.weight"].shape[1]
+        aux_emb = 32  # fixed aux embedding dim in Encoder
+        cnn_flat = fc_in - aux_emb
+        self._raster_size = int(16 * (cnn_flat / 256) ** 0.5)
+        self._aux_dim = state_dict["encoder.aux_mlp.0.weight"].shape[1]
+
     def encode(self, obs: dict[str, Any]) -> Any:
         if self._model is None:
             raise RuntimeError("load() must be called before encode()")
         raster = self._to_raster_tensor(obs)
         aux = self._to_aux_tensor(obs)
-        if raster.shape[-2:] != (64, 64):
-            raise ValueError(
-                f"World model requires raster_size=64, got {raster.shape[-2:]!r}. "
-                f"Set raster_size=64 in env config."
-            )
         try:
             with torch.no_grad():
                 return self._model.encode(raster, aux)
         except RuntimeError as e:
             raise RuntimeError(
                 f"WorldModel.encode failed: {e}\n"
-                f"  raster shape: {raster.shape} (expected: (B, 3, 64, 64))\n"
-                f"  aux shape:    {aux.shape} (expected: (B, 16))"
+                f"  raster shape: {raster.shape} (expected: (B, 3, {self._raster_size}, {self._raster_size}))\n"
+                f"  aux shape:    {aux.shape} (expected: (B, {self._aux_dim}))"
             ) from e
 
     def encode_target(self, obs: dict[str, Any]) -> Any:

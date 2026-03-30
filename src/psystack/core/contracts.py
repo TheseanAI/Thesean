@@ -23,6 +23,10 @@ class EnvPlugin(Protocol):
 
 @runtime_checkable
 class WorldModelPlugin(Protocol):
+    @property
+    def raster_size(self) -> int: ...
+    @property
+    def aux_dim(self) -> int: ...
     def model_id(self) -> str: ...
     def load(self, weights_path: str, device: str = "cpu") -> None: ...
     def encode(self, obs: dict[str, Any]) -> Any: ...
@@ -105,9 +109,10 @@ class AdapterFactory(Protocol):
         """Return default planner config dict for psystack runs."""
         ...
 
-    def default_env_config(self, env_id: str) -> dict[str, Any]:
+    def default_env_config(self, env_id: str, world_model: WorldModelPlugin | None = None) -> dict[str, Any]:
         """Return full env config dict for a given env ID (e.g. track name).
-        The env_id comes from discover_envs()."""
+        The env_id comes from discover_envs(). If world_model is provided,
+        raster_size is inferred from checkpoint weights."""
         ...
 
     # Optional extended methods (Phase 3) — checked via hasattr at call sites
